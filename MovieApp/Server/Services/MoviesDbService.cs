@@ -17,7 +17,7 @@ namespace MovieApp.Server.Services
 		Task<List<Movie>> GetMovies();
 		Task AddMovie(Movie movie);
 		Task<Movie> GetMovie(int movieId);
-		Task ModifyMovie(int movieId);
+		Task ModifyMovie(int movieId, Movie movie);
 		Task DeleteMovie(int movieId);
 	}
 
@@ -42,10 +42,17 @@ namespace MovieApp.Server.Services
 			return _context.Movies.FirstOrDefaultAsync(m => m.Id == movieId);
 		}
 
-		public Task ModifyMovie(int movieId)
-		{
-			var movie = _context.Movies.FirstOrDefault(m => m.Id == movieId);
-			_context.Movies.Update(movie);
+        public Task ModifyMovie(int movieId, Movie movie)
+        {
+			var movieFromDb = _context.Movies.FirstOrDefault(m => m.Id == movieId);
+			movieFromDb.Title = movie.Title;
+			movieFromDb.Summary = movie.Summary;
+			movieFromDb.InTheaters = movie.InTheaters;
+			movieFromDb.Trailer = movie.Trailer;
+			movieFromDb.ReleaseDate = movie.ReleaseDate;
+			movieFromDb.Poster = movie.Poster;
+			movieFromDb.MoviesGenres = movie.MoviesGenres;
+			movieFromDb.MoviesActors = movie.MoviesActors;
 			return _context.SaveChangesAsync();
 		}
 

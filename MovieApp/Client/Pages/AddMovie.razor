@@ -1,0 +1,55 @@
+﻿@page "/movies/add"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@attribute [Authorize]
+@inject HttpClient httpClient
+@inject NavigationManager NavigationManager
+
+<EditForm Model="@movie" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group">
+        <label for="title">Title</label>
+        <InputText id="title" class="form-control" @bind-Value="movie.Title" placeholder="Title" />
+    </div>
+    <div class="form-group">
+        <label for="summary">Summary</label>
+        <InputText id="summary" class="form-control" @bind-Value="movie.Summary" placeholder="Summary" />
+    </div>
+    <div class="form-group form-check">
+        <InputCheckbox id="inTheaters" class="form-check-input" @bind-Value="movie.InTheaters" />
+        <label for="inTheaters" class="form-check-label">In Theaters</label>
+    </div>
+    <div class="form-group">
+        <label for="trailer">Trailer URL</label>
+        <InputText id="trailer" class="form-control" @bind-Value="movie.Trailer" placeholder="Trailer URL" />
+    </div>
+    <div class="form-group">
+        <label for="releaseDate">Release Date</label>
+        <InputDate id="releaseDate" class="form-control" @bind-Value="movie.ReleaseDate" placeholder="Release Date" />
+    </div>
+    <div class="form-group">
+        <label for="poster">Poster URL</label>
+        <InputText id="poster" class="form-control" @bind-Value="movie.Poster" placeholder="Poster URL" />
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+</EditForm>
+
+@code {
+    private Movie movie = new Movie();
+
+    private async Task HandleValidSubmit()
+    {
+     
+		var responseHTTP = await httpClient.PostAsJsonAsync("https://localhost:44311/api/movies", movie);
+
+		if (responseHTTP.IsSuccessStatusCode)
+		{
+			NavigationManager.NavigateTo("/movies");
+		}
+		else
+		{
+			//error
+		}
+    }
+}

@@ -1,6 +1,7 @@
 ﻿@inject IJSRuntime js
+@inject HttpClient httpClient
 
-<div class="movies-container">
+<div class="movies-container d-flex">
     <GenericList List="Movies">
         <ElementTemplate Context="movie">
             <IndividualMovie Movie="movie"
@@ -8,6 +9,8 @@
         </ElementTemplate>
     </GenericList>
 </div>
+<a class="btn btn-success" href="/movies/add">Add new movie</a>
+
 
 @code {
     [Parameter] public List<Movie> Movies { get; set; }
@@ -24,7 +27,8 @@
 
         if (confirmed)
         {
-            //TODO delete movie
+			 await httpClient.DeleteAsync($"https://localhost:44311/api/movies/{movie.Id}");
+             Movies.Remove(movie);
         }
     }
 }

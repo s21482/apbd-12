@@ -43,7 +43,7 @@ namespace MovieApp.Server.Controllers
 		[HttpPut("{movieId}")]
 		public async Task<IActionResult> ModifyMovie(int movieId, [FromBody] Movie movie)
 		{
-			await _dbService.ModifyMovie(movieId);
+			await _dbService.ModifyMovie(movieId, movie);
 			return Ok();
 		}
 

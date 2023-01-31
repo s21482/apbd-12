@@ -1,6 +1,6 @@
 ﻿<div class="individual-movie-container">
     <a href="@movieURL">
-        <img src="@Movie.Poster" alt="Poster" class="movie-poster" />
+        <img src="@Movie.Poster" alt="Poster" class="movie-poster" style="max-height: 200px" />
     </a>
     <p><a href="@movieURL">@Movie.TitleBrief</a></p>
     <div>
@@ -20,6 +20,6 @@
 
     protected override void OnInitialized()
     {
-        movieURL = $"movie/{Movie.Id}/{Movie.Title.Replace(" ", "-")}";
+        movieURL = $"movie/{Movie.Id}";
     }
 }
